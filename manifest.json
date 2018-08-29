@@ -3,6 +3,7 @@
   "description": "a customizable new tab page",
   "version": "1.0.0",
   "manifest_version": 2,
+  "incognito": "split",
   "chrome_url_overrides": {
     "newtab": "newTab.html"
   }
