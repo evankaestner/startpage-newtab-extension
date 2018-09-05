@@ -29,6 +29,9 @@ function getUrl() {
     } else {
       url = "https://evankaestner.github.io/startpage/";
     }
+    chrome.browserAction.onClicked.addListener(function(tab) {
+      chrome.tabs.executeScript(null, {file: "newtab.js"});
+    });
     chrome.contentSettings.popups.set({
       'primaryPattern': url+"*",
       'setting': "allow",

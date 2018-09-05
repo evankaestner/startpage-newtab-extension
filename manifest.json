@@ -5,9 +5,12 @@
   "manifest_version": 2,
   "options_page": "options.html",
   "incognito": "split",
-  "permissions": ["contentSettings", "storage"],
+  "permissions": ["contentSettings", "storage", "activeTab"],
   "chrome_url_overrides": {
-    "newtab": "newTab.html"
+    "newtab": "newtab.html"
+  },
+  "browser_action": {
+    "default_icon": "icons/icon128.png"
   },
   "commands": {
     "toggle-pin": {
