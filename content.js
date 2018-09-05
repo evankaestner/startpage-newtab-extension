@@ -1,4 +1,3 @@
-const q = new URLSearchParams(window.location.search).get('q');
 var auto;
 var url;
 var def;
@@ -6,29 +5,57 @@ var inc;
 var custom;
 
 function getKeys() {
-  chrome.storage.local.get(["autoKey", "defKey", "incKey", "customKey"], function(result) {
-    if (result.autoKey) {
-      auto = result.autoKey;
+  chrome.storage.local.get(["urlKey", "autoKey", "defKey", "incKey", "customKey"], function(result) {
+    if (result.urlKey) {
+      url = result.urlKey;
     } else {
-      auto = false;
+      url = "https://evankaestner.github.io/startpage/";
     }
-    if (result.defKey) {
-      def = result.defKey;
+    if (window.location.href == url) {
+      if (result.autoKey) {
+        auto = result.autoKey;
+      } else {
+        auto = false;
+      }
+      if (result.defKey) {
+        def = result.defKey;
+      } else {
+        def = "NrBEoGnLOvYTAukoA";
+      }
+      if (result.incKey) {
+        inc = result.incKey;
+      } else {
+        inc = "NrBEBNQGlBiAmRTqhWm7UYLraA";
+      }
+      if (result.customKey) {
+        custom = JSON.parse(result.customKey);
+      } else {
+        custom = JSON.parse(JSON.stringify([{"alias": "example", "hash": "NrBEoGnLNBRAHgQwLYAcA2BTWub9AGZQBdEoA"}], null, 2));
+      }
+      content();
     } else {
-      def = "NrBEoGnLOvYTAukoA";
+      return false;
     }
-    if (result.incKey) {
-      inc = result.incKey;
-    } else {
-      inc = "NrBEBNQGlBiAmRTqhWm7UYLraA";
-    }
-    if (result.customKey) {
-      custom = JSON.parse(result.customKey);
-    } else {
-      custom = JSON.parse(JSON.stringify([{"alias": "NrBEoGnLNBBANgSwIYGdaZt8BdXQA"}], null, 2));
-    }
-    content();
   });
+}
+
+function content() {
+  if (chrome.extension.inIncognitoContext) {
+    defaultHash(inc);
+  } else {
+    defaultHash(def);
+  }
+  if (auto === true) {
+    chrome.extension.sendMessage({pin: true}, function(response) {});
+  }
+  loadAlias();
+}
+
+function defaultHash(hash) {
+  var code = `defaultHash="${hash}";retrieveHash();toPanel();saveSettings();`;
+  var script = document.createElement('script');
+  script.textContent = code;
+  (document.head||document.documentElement).appendChild(script);
 }
 
 function loadAlias() {
@@ -56,24 +83,4 @@ function loadAlias() {
   (document.head||document.documentElement).appendChild(script);
 }
 
-function defaultHash(hash) {
-  var code = `defaultHash="${hash}";retrieveHash();toPanel();saveSettings();`;
-  var script = document.createElement('script');
-  script.textContent = code;
-  (document.head||document.documentElement).appendChild(script);
-}
-
-function content() {
-  if (chrome.extension.inIncognitoContext) {
-    defaultHash(inc);
-  } else {
-    defaultHash(def);
-  }
-  if (auto === true) {
-    chrome.extension.sendMessage({pin: true}, function(response) {});
-  }
-  loadAlias();
-}
-if (!q) {
-  getKeys();
-}
+getKeys();

@@ -33,7 +33,8 @@ function restoreOptions() {
     if (result.customKey) {
       document.getElementById("custom").value = JSON.stringify(JSON.parse(result.customKey), null, 2);
     } else {
-      document.getElementById("custom").value = JSON.stringify([{"alias": "example", "hash": "NrBEoGnLNBRAHgQwLYAcA2BTWub9AGZQBdEoA"}], null, 2)};
+      document.getElementById("custom").value = JSON.stringify([{"alias": "example", "hash": "NrBEoGnLNBRAHgQwLYAcA2BTWub9AGZQBdEoA"}], null, 2);
+    };
   });
 }
 
