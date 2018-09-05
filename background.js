@@ -1,5 +1,3 @@
-var url;
-
 function backgroundLoad() {
   chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
@@ -19,24 +17,8 @@ function backgroundLoad() {
       });
     }
   });
-  getUrl();
-}
-
-function getUrl() {
-  chrome.storage.local.get(["urlKey"], function(result) {
-    if (result.urlKey) {
-      url = result.urlKey;
-    } else {
-      url = "https://evankaestner.github.io/startpage/";
-    }
-    chrome.browserAction.onClicked.addListener(function(tab) {
-      chrome.tabs.executeScript(null, {file: "newtab.js"});
-    });
-    chrome.contentSettings.popups.set({
-      'primaryPattern': url+"*",
-      'setting': "allow",
-      'scope': 'regular'
-    });
+  chrome.browserAction.onClicked.addListener(function(tab) {
+    chrome.tabs.executeScript(null, {file: "newtab.js"});
   });
 }
 

@@ -5,7 +5,7 @@
   "manifest_version": 2,
   "options_page": "options.html",
   "incognito": "split",
-  "permissions": ["contentSettings", "storage", "activeTab"],
+  "permissions": ["storage", "activeTab"],
   "chrome_url_overrides": {
     "newtab": "newtab.html"
   },
