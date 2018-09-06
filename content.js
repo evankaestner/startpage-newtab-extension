@@ -1,3 +1,4 @@
+var alreadyLoaded;
 var auto;
 var def;
 var inc;
@@ -73,4 +74,7 @@ function loadAlias() {
   (document.head||document.documentElement).appendChild(script);
 }
 
-getKeys();
+if (!alreadyLoaded) {
+  getKeys();
+  alreadyLoaded = true;
+}

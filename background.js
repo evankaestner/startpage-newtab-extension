@@ -1,6 +1,4 @@
 var startpageURL;
-var alreadyPinned = [];
-var alreadyLoaded = [];
 
 function backgroundLoad() {
   chrome.runtime.onMessage.addListener(
@@ -8,10 +6,7 @@ function backgroundLoad() {
       if (request.pin) {
         chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
           var current = tabs[0];
-          if (alreadyPinned.indexOf(current.id) === -1) {
-            chrome.tabs.update(current.id, {'pinned': true});
-            alreadyPinned.push(current.id);
-          }
+          chrome.tabs.update(current.id, {'pinned': true});
         });
       }
     }
@@ -50,10 +45,7 @@ chrome.tabs.onUpdated.addListener(function(tab) {
           origins: [tabArray[0].url]
         }, function(result) {
           if (result) {
-            if (alreadyLoaded.indexOf(tabArray[0].id) === -1) {
-              chrome.tabs.executeScript(tabArray[0].id, {file: 'content.js', runAt: 'document_end'});
-              alreadyLoaded.push(tabArray[0].id);
-            }
+            chrome.tabs.executeScript(tabArray[0].id, {file: 'content.js', runAt: 'document_end'});
           }
         });
       }
