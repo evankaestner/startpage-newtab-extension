@@ -1,41 +1,31 @@
 var auto;
-var url;
 var def;
 var inc;
 var custom;
 
 function getKeys() {
-  chrome.storage.local.get(["urlKey", "autoKey", "defKey", "incKey", "customKey"], function(result) {
-    if (result.urlKey) {
-      url = result.urlKey;
+  chrome.storage.local.get(["autoKey", "defKey", "incKey", "customKey"], function(result) {
+    if (result.autoKey) {
+      auto = result.autoKey;
     } else {
-      url = "https://evankaestner.github.io/startpage/";
+      auto = false;
     }
-    if (window.location.href == url) {
-      if (result.autoKey) {
-        auto = result.autoKey;
-      } else {
-        auto = false;
-      }
-      if (result.defKey) {
-        def = result.defKey;
-      } else {
-        def = "NrBEoGnLOvYTAukoA";
-      }
-      if (result.incKey) {
-        inc = result.incKey;
-      } else {
-        inc = "NrBEBNQGlBiAmRTqhWm7UYLraA";
-      }
-      if (result.customKey) {
-        custom = JSON.parse(result.customKey);
-      } else {
-        custom = JSON.parse(JSON.stringify([{"alias": "example", "hash": "NrBEoGnLNBRAHgQwLYAcA2BTWub9AGZQBdEoA"}], null, 2));
-      }
-      content();
+    if (result.defKey) {
+      def = result.defKey;
     } else {
-      return false;
+      def = "NrBEoGnLOvYTAukoA";
     }
+    if (result.incKey) {
+      inc = result.incKey;
+    } else {
+      inc = "NrBEBNQGlBiAmRTqhWm7UYLraA";
+    }
+    if (result.customKey) {
+      custom = JSON.parse(result.customKey);
+    } else {
+      custom = JSON.parse(JSON.stringify([{"alias": "example", "hash": "NrBEoGnLNBRAHgQwLYAcA2BTWub9AGZQBdEoA"}], null, 2));
+    }
+    content();
   });
 }
 

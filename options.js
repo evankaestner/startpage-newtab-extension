@@ -1,13 +1,3 @@
-function saveOptions() {
-  chrome.storage.local.set({
-    "autoKey": document.getElementById("auto").checked,
-    "urlKey": document.getElementById("url").value,
-    "defKey": document.getElementById("def").value,
-    "incKey": document.getElementById("inc").value,
-    "customKey": document.getElementById("custom").value
-  }, function() {});
-}
-
 function restoreOptions() {
   chrome.storage.local.get(["autoKey", "urlKey", "defKey", "incKey", "customKey"], function(result) {
     if (result.autoKey) {
@@ -35,6 +25,30 @@ function restoreOptions() {
     } else {
       document.getElementById("custom").value = JSON.stringify([{"alias": "example", "hash": "NrBEoGnLNBRAHgQwLYAcA2BTWub9AGZQBdEoA"}], null, 2);
     };
+  });
+}
+
+function saveOptions() {
+  chrome.storage.local.set({
+    "autoKey": document.getElementById("auto").checked,
+    "urlKey": document.getElementById("url").value,
+    "defKey": document.getElementById("def").value,
+    "incKey": document.getElementById("inc").value,
+    "customKey": document.getElementById("custom").value
+  }, function() {
+    if (document.getElementById("url").value) {
+      chrome.permissions.contains({
+        origins: [document.getElementById("url").value]
+      }, function(result) {
+        if (!result) {
+          chrome.permissions.request({
+            origins: [document.getElementById("url").value]
+          }, function(granted) {
+            chrome.runtime.reload();
+          });
+        }
+      });
+    }
   });
 }
 
