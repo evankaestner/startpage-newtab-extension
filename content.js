@@ -39,6 +39,11 @@ function content() {
   if (auto === true) {
     chrome.extension.sendMessage({pin: true}, function(response) {});
   }
+  for (var i = 0; i < custom.length; i++) {
+    if (window.location.hash == "#"+custom[i].alias) {
+      defaultHash(custom[i].hash);
+    }
+  }
   loadAlias();
 }
 
