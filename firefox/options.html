@@ -1,0 +1,100 @@
+<html>
+<head>
+  <title>Startpage Options</title>
+  <style>
+  body {
+    padding: 40px;
+  }
+  td {
+    vertical-align: top;
+    padding: 3px;
+  }
+  #auto {
+    padding: 3px;
+  }
+  #url, #def, #inc, #custom {
+    min-width: 300px;
+    width: 100%;
+    padding: 3px;
+  }
+  .submit{
+    position: absolute;
+    padding-top: 20px;
+    padding-left: 550px;
+  }
+  button {
+    background-color: #45C266;
+    -webkit-border-radius: 28px;
+    border-radius: 28px;
+    border: 1px solid #21972F;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 17px;
+    padding: 16px 31px;
+    text-decoration: none;
+  }
+  button:hover {
+    background-color: #5EC77A;
+  }
+  button:active {
+    position:relative;
+    top:2px;
+  }
+  button:focus {
+    outline:0;
+  }
+</style>
+</head>
+<body>
+  <h1>Startpage Options:</h1><br>
+  <div class="inputs">
+    <table>
+      <tr>
+        <td>
+          <label for="auto">Auto-Pin Startpage: </label>
+        </td>
+        <td>
+          <input type="checkbox" id="auto"/></input>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="url">Startpage URL: </label>
+        </td>
+        <td>
+          <input type="url" id="url"/></input>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="def">Default Hash: </label>
+        </td>
+        <td>
+          <input type="text" id="def"/></input>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="inc">Incognito Hash: </label>
+        </td>
+        <td>
+          <input type="text" id="inc"/></input>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="custom">Custom Hashes: </label>
+        </td>
+        <td>
+          <textarea cols="65" rows="7" id="custom" spellcheck="false"></textarea>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="submit">
+    <button type="button" form="options" id="submit">Submit</button>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>

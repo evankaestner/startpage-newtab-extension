@@ -1,0 +1,39 @@
+{
+  "name": "Startpage",
+  "description": "A customizable new tab page",
+  "version": "1.1.2",
+  "manifest_version": 2,
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "permissions": ["storage", "activeTab"],
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "browser_action": {
+    "default_icon": "icons/icon128.png"
+  },
+  "commands": {
+    "toggle-pin": {
+      "suggested_key": { "default": "Alt+P" },
+      "description": "Toggle Pinned State"
+    }
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "icons": {
+    "16":  "icons/icon16.png",
+    "32":  "icons/icon32.png",
+    "48":  "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

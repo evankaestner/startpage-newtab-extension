@@ -1,0 +1,95 @@
+var alreadyLoaded;
+var auto;
+var url;
+var def;
+var inc;
+var custom;
+
+function getKeys() {
+  chrome.storage.local.get(["urlKey", "autoKey", "defKey", "incKey", "customKey"], function(result) {
+    if (result.urlKey) {
+      url = result.urlKey;
+    } else {
+      url = "https://evankaestner.github.io/startpage/";
+    }
+    if (window.location.origin + window.location.pathname == url) {
+      if (result.autoKey) {
+        auto = result.autoKey;
+      } else {
+        auto = false;
+      }
+      if (result.defKey) {
+        def = result.defKey;
+      } else {
+        def = "NrBEoGnLOvYTAukoA";
+      }
+      if (result.incKey) {
+        inc = result.incKey;
+      } else {
+        inc = "NrBEBNQGlBiAmRTqhWm7UYLraA";
+      }
+      if (result.customKey) {
+        custom = JSON.parse(result.customKey);
+      } else {
+        custom = JSON.parse(JSON.stringify([{"alias": "example", "hash": "NrBEoGnLNBRAHgQwLYAcA2BTWub9AGZQBdEoA"}], null, 2));
+      }
+      content();
+    } else {
+      return false;
+    }
+  });
+}
+
+function content() {
+  if (chrome.extension.inIncognitoContext) {
+    defaultHash(inc);
+  } else {
+    defaultHash(def);
+  }
+  if (auto === true) {
+    browser.runtime.sendMessage({pin: true}, function(response) {});
+  }
+  for (var i = 0; i < custom.length; i++) {
+    if (window.location.hash == "#"+custom[i].alias) {
+      defaultHash(custom[i].hash);
+    }
+  }
+  loadAlias();
+}
+
+function defaultHash(hash) {
+  var code = `defaultHash="${hash}";retrieveHash();toPanel();saveSettings();`;
+  var script = document.createElement('script');
+  script.textContent = code;
+  (document.head||document.documentElement).appendChild(script);
+}
+
+function loadAlias() {
+  var checkAlias = `
+  document.getElementById('search-form').onsubmit = function() {
+    `;
+    for (var i = 0; i < custom.length; i++) {
+      checkAlias += `
+      if (document.getElementById('search-input').value == "#${custom[i].alias}") {
+        retrieveHash("${custom[i].hash}");toPanel();saveSettings();
+        document.getElementById('search-form').reset();
+        return false;
+      }
+      `
+    }
+    checkAlias += `
+    else {
+      formOnSubmit(document.getElementById('search-input').value);
+      return false;
+    }
+  }
+  `
+  var script = document.createElement('script');
+  script.textContent = checkAlias;
+  (document.head||document.documentElement).appendChild(script);
+}
+
+if (!alreadyLoaded) {
+  getKeys();
+  alreadyLoaded = true;
+}
